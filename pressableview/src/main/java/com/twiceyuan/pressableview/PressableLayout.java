@@ -18,21 +18,21 @@ import android.widget.FrameLayout;
  * <p>
  * 通过设置 Background 来实现任意图片、颜色、Shape 的变暗效果
  */
-public class PressableView extends FrameLayout {
+public class PressableLayout extends FrameLayout {
 
     private int pressedFilter = 0x40000000;
 
-    public PressableView(Context context) {
+    public PressableLayout(Context context) {
         super(context);
         initView();
     }
 
-    public PressableView(Context context, AttributeSet attrs) {
+    public PressableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public PressableView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PressableLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }

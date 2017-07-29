@@ -12,7 +12,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.twiceyuan.pressableview.PressableView
+        <com.twiceyuan.pressableview.PressableLayout
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/ic_sample"/>
@@ -28,12 +28,11 @@
 
     </LinearLayout>
 
-
     <Space
         android:layout_width="wrap_content"
         android:layout_height="40dp"/>
 
-    <com.twiceyuan.pressableview.PressableView
+    <com.twiceyuan.pressableview.PressableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_rounded_button">
@@ -50,13 +49,13 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"/>
 
-    </com.twiceyuan.pressableview.PressableView>
+    </com.twiceyuan.pressableview.PressableLayout>
 
     <Space
         android:layout_width="wrap_content"
         android:layout_height="40dp"/>
 
-    <com.twiceyuan.pressableview.PressableView
+    <com.twiceyuan.pressableview.PressableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#a4a4a4">
@@ -73,6 +72,21 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"/>
 
-    </com.twiceyuan.pressableview.PressableView>
+    </com.twiceyuan.pressableview.PressableLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <com.twiceyuan.pressableview.PressableImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sample"/>
+
+    </FrameLayout>
 
 </LinearLayout>
