@@ -2,11 +2,10 @@ package com.twiceyuan.pressableview;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -49,7 +48,7 @@ public class PressableLayout extends FrameLayout {
 
     private void setupPressDrawable(Drawable backgroundDrawable) {
 
-        StateListDrawable stateListDrawable = new StateListDrawable();
+        FilterableStateListDrawable stateListDrawable = new FilterableStateListDrawable();
 
         Drawable.ConstantState constantState = backgroundDrawable.getConstantState();
 
@@ -60,12 +59,12 @@ public class PressableLayout extends FrameLayout {
         Drawable pressedDrawable = constantState.newDrawable().mutate();
         backgroundDrawable.mutate();
 
-        pressedDrawable.setColorFilter(pressedFilter, PorterDuff.Mode.MULTIPLY);
+        ColorFilter colorFilter = new PorterDuffColorFilter(pressedFilter, PorterDuff.Mode.SRC_ATOP);
 
-        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressedDrawable);
-        stateListDrawable.addState(new int[]{0}, new ColorDrawable(Color.parseColor("#00000000")));
+        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressedDrawable, colorFilter);
+        stateListDrawable.addState(new int[]{0}, backgroundDrawable);
 
-        setForeground(stateListDrawable);
+        super.setBackgroundDrawable(stateListDrawable);
     }
 
     public void setPressedFilter(@ColorInt int pressedFilter) {

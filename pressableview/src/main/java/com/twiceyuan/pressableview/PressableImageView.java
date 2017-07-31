@@ -3,16 +3,13 @@ package com.twiceyuan.pressableview;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 /**
  * Created by twiceYuan on 2017/7/29.
@@ -22,6 +19,29 @@ import android.util.AttributeSet;
 public class PressableImageView extends AppCompatImageView {
 
     private int pressedFilter = 0x40000000;
+
+    private static PorterDuff.Mode[] mModes = {
+            PorterDuff.Mode.CLEAR,
+            PorterDuff.Mode.SRC,
+            PorterDuff.Mode.DST,
+            PorterDuff.Mode.SRC_OVER,
+            PorterDuff.Mode.DST_OVER,
+            PorterDuff.Mode.SRC_IN,
+            PorterDuff.Mode.DST_IN,
+            PorterDuff.Mode.SRC_OUT,
+            PorterDuff.Mode.DST_OUT,
+            PorterDuff.Mode.SRC_ATOP,
+            PorterDuff.Mode.DST_ATOP,
+            PorterDuff.Mode.XOR,
+            PorterDuff.Mode.DARKEN,
+            PorterDuff.Mode.LIGHTEN,
+            PorterDuff.Mode.MULTIPLY,
+            PorterDuff.Mode.SCREEN,
+            PorterDuff.Mode.ADD,
+            PorterDuff.Mode.OVERLAY,
+    };
+
+    private int index = 0;
 
     public PressableImageView(Context context) {
         super(context);
@@ -43,6 +63,13 @@ public class PressableImageView extends AppCompatImageView {
         setClickable(true);
 
         refreshPressableState();
+
+//        setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                refreshPressableState();
+//            }
+//        });
     }
 
     public void setPressedFilter(@ColorInt int pressedFilter) {
@@ -57,16 +84,6 @@ public class PressableImageView extends AppCompatImageView {
             return;
         }
 
-        // 判断是否是支持处理的 Drawable 类型，不是的话不进行处理
-        boolean isRawDrawable = drawable instanceof BitmapDrawable ||
-                drawable instanceof ShapeDrawable ||
-                drawable instanceof GradientDrawable ||
-                drawable instanceof ColorDrawable;
-
-        if (!isRawDrawable) {
-            return;
-        }
-
         Drawable.ConstantState constantState = drawable.getConstantState();
         if (constantState == null) {
             return;
@@ -75,14 +92,22 @@ public class PressableImageView extends AppCompatImageView {
         Drawable pressedDrawable = constantState.newDrawable().mutate();
         drawable.mutate();
 
-        StateListDrawable stateListDrawable = new StateListDrawable();
+        FilterableStateListDrawable stateListDrawable = new FilterableStateListDrawable();
 
         pressedDrawable.setColorFilter(pressedFilter, PorterDuff.Mode.SRC_ATOP);
+//        Log.i("ModeChanged", String.valueOf(mModes[index]));
+//        index++;
 
-        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressedDrawable);
+        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressedDrawable, new PorterDuffColorFilter(pressedFilter, PorterDuff.Mode.SRC_ATOP));
         stateListDrawable.addState(new int[]{0}, drawable);
 
-        setImageDrawable(stateListDrawable);
+        super.setImageDrawable(stateListDrawable);
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        Log.i("drawableStateChanged", "drawableStateChanged");
     }
 
     @Override
