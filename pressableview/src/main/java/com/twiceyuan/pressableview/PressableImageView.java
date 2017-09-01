@@ -20,29 +20,6 @@ public class PressableImageView extends AppCompatImageView {
 
     private int pressedFilter = 0x40000000;
 
-    private static PorterDuff.Mode[] mModes = {
-            PorterDuff.Mode.CLEAR,
-            PorterDuff.Mode.SRC,
-            PorterDuff.Mode.DST,
-            PorterDuff.Mode.SRC_OVER,
-            PorterDuff.Mode.DST_OVER,
-            PorterDuff.Mode.SRC_IN,
-            PorterDuff.Mode.DST_IN,
-            PorterDuff.Mode.SRC_OUT,
-            PorterDuff.Mode.DST_OUT,
-            PorterDuff.Mode.SRC_ATOP,
-            PorterDuff.Mode.DST_ATOP,
-            PorterDuff.Mode.XOR,
-            PorterDuff.Mode.DARKEN,
-            PorterDuff.Mode.LIGHTEN,
-            PorterDuff.Mode.MULTIPLY,
-            PorterDuff.Mode.SCREEN,
-            PorterDuff.Mode.ADD,
-            PorterDuff.Mode.OVERLAY,
-    };
-
-    private int index = 0;
-
     public PressableImageView(Context context) {
         super(context);
         initView();
@@ -63,13 +40,6 @@ public class PressableImageView extends AppCompatImageView {
         setClickable(true);
 
         refreshPressableState();
-
-//        setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                refreshPressableState();
-//            }
-//        });
     }
 
     public void setPressedFilter(@ColorInt int pressedFilter) {
@@ -95,8 +65,6 @@ public class PressableImageView extends AppCompatImageView {
         FilterableStateListDrawable stateListDrawable = new FilterableStateListDrawable();
 
         pressedDrawable.setColorFilter(pressedFilter, PorterDuff.Mode.SRC_ATOP);
-//        Log.i("ModeChanged", String.valueOf(mModes[index]));
-//        index++;
 
         stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressedDrawable, new PorterDuffColorFilter(pressedFilter, PorterDuff.Mode.SRC_ATOP));
         stateListDrawable.addState(new int[]{0}, drawable);
